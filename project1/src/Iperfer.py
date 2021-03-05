@@ -1,14 +1,27 @@
-#!/usr/bin/enc python3
-
 from socket import *
 import time
 import sys
 
-HOST = '10.0.0.2'
-PORT = 5599
+#HOST = '10.0.0.2'
+#PORT = 5599
 BUFFER_Size = 1000
 
+if(len(sys.argv) == 4):
+	print("usage:", sys.argv[0], "<server hostname> <port> <time>");
+else:
+	print("Error: missing or additional arguments");
+	sys.exit();
+
+HOST = sys.argv[1]
+PORT = int(sys.argv[2])
+TIME = int(sys.argv[3])
 testdata = '0'*BUFFER_Size
+#print(PORT);
+#print(type(sys.argv[3]));
+
+if(PORT < 1024 or PORT > 65535):
+	print("Error: port number must be in the range 1024 to 65535");
+	sys.exit();
 
 s = socket(AF_INET, SOCK_STREAM)
 t_pre = time.time()
@@ -16,7 +29,7 @@ s.connect((HOST, PORT))
 t1 = time.time()
 print(t1)
 
-timeout = t1 + 2
+timeout = t1 + TIME
 sizeappend = 0
 while time.time() < timeout:
         s.send(bytes(testdata , 'utf-8'))
@@ -24,11 +37,11 @@ while time.time() < timeout:
 t_post = time.time()
 #data = s.recv(2048)
 s.close()
-print( "whole time frame with connect: ", (t_post - t_pre))
-print( "whole time frae without connec: ", (t_post - t1))
-print( "difference t1 and t_pre", (t1 - t_pre))
-print( "bytesize" , ((sizeappend)/1024)/1024)
-print( "division", (sizeappend/2)/2)
+#print( "whole time frame with connect: ", (t_post - t_pre))
+#print( "whole time frae without connec: ", (t_post - t1))
+#print( "difference t1 and t_pre", (t1 - t_pre))
+print( "sent=" , round(((sizeappend)/1024)/1024 * 1000) , "KB")
+print( "rate=", ((sizeappend/TIME)*8)* 10**-6, "Mbps")
 #print(data) 
 
 """
