@@ -30,8 +30,8 @@ while time.time() < timeout:
 t_post = time.time()
 #data = s.recv(2048)
 s.close()
-Transfersize = round(((sizeappend)/1000))
-Bandwidth =  round((((sizeappend/TIME)*8)*(10**-6)),3)
+Transfersize = round((((sizeappend)/1024)/1024) * 1000)
+Bandwidth =  round((((sizeappend/TIME)*8)*(10**-6)), 3)
 print( "sent={} KB ".format(Transfersize), "rate={} Mbps".format(Bandwidth))
 
 
