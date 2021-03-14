@@ -1,0 +1,12 @@
+Q2: Path Latency and throughput 
+
+H1 - H4 communication
+
+H1 -(S1)---(        )---(S2)---(      )---(S3)---(       )---(S4)- H4 
+    
+    rtt      84  ms          25 ms        70 ms
+throughput   4.478 mbps         4.4 mbps        7 mbps
+
+rtt - 170 - .17seconds
+throughput - 5.88 
+

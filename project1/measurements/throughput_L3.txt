@@ -1,0 +1,2 @@
+usage: test_code.py <server hostname> <port> <time>
+sent=17085 KB  rate=7.166 Mbps
