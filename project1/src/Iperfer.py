@@ -2,9 +2,9 @@ from socket import *
 import time
 import sys
 
-if( int(sys.argv[2]) < 1024 or int(sys.argv[2]) > 65535):
-        print("Error: port number must be in the range 1024 to 65535")
-        sys.exit()
+if(int(sys.argv[2]) < 1024 or int(sys.argv[2]) > 65535):
+	print("Error: port number must be in the range 1024 to 65535")
+	sys.exit()
 elif(len(sys.argv) == 4):
         print("usage:", sys.argv[0], "<server hostname> <port> <time>")
 else:
@@ -17,7 +17,6 @@ PORT = int(sys.argv[2])
 TIME = int(sys.argv[3])
 BUFFER_Size = 1000
 testdata = '0'*BUFFER_Size
-
 
 s = socket(AF_INET, SOCK_STREAM)
 s.connect((HOST, PORT))

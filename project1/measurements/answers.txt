@@ -10,3 +10,35 @@ throughput   4.478 mbps         4.4 mbps        7 mbps
 rtt - 170 - .17seconds
 throughput - 5.88 
 
+3: Predicted Latency and throughput
+2 pairs(h1,h4 and h7,h8)
+h1 - h4: predicted rtt = 170 ms
+rtt = 161 ms
+throughput = 5.085
+
+h7 - h8: predicted rtt = 170 ms
+rtt = 161 ms
+throughout = 16.542
+
+3 pairs(h1, h4; h7, h8; h10, h9)
+h1-h4: predicted rtt = 170 ms
+rtt = 161 ms
+throughput = 10.45
+
+h7 - h8: predicted rtt = 170 ms
+rtt = 161 ms
+throughput = 7.24
+
+h10 - h9: predicted rtt = 170 ms
+rtt = 161 ms 
+throughput = 4.48
+
+Q4: Predicted Latency and Throughput
+
+h1-h4: predicted rtt = 170 ms
+rtt = 161 ms
+throughput = 15.838
+
+h5-h6: predicted rtt = 50 ms
+rtt = 43 ms
+throughput = 23.91
