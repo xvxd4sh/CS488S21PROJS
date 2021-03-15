@@ -2,13 +2,30 @@ Q2: Path Latency and throughput
 
 H1 - H4 communication
 
-H1 -(S1)---(        )---(S2)---(      )---(S3)---(       )---(S4)- H4 
-    
-    rtt      84  ms          25 ms        70 ms
-throughput   4.478 mbps         4.4 mbps        7 mbps
+predicted 
+latency - 170 - .17seconds
+throughput -  15 mbps
 
-rtt - 170 - .17seconds
-throughput - 5.88 
+actual: 
+latency - 171.865 seconds 
+throughput- 10.242 mbps 
+
+explanation: 
+my expectation for the latency was correct, being the time it takes for a 
+packet to go round trip would be the addition for all the rtt. However that is 
+not how the throughput is calculated as it measure the amount of data that can 
+be transmitted in a specific duration of time. I added and that was incorrect. 
+This is incorrect because the fact that with the increase number of rtt, the 
+amount of data should be less than adding all of the throughput combined. not
+necessarily know how to add them together, but as a reference, i think it should 
+definately be less.  
+
+** just random notes **
+H1 -(S1)---(   L1   )---(S2)---(   L2   )---(S3)---(   L3   )---(S4)- H4 
+    
+    rtt      84  ms             25 ms               70 ms
+throughput   4.478 mbps         4.4 mbps            7 mbps
+ 
 
 3: Predicted Latency and throughput
 2 pairs(h1,h4 and h7,h8)
@@ -18,7 +35,7 @@ throughput = 5.085
 
 h7 - h8: predicted rtt = 170 ms
 rtt = 161 ms
-throughout = 16.542
+throughput = 16.542
 
 3 pairs(h1, h4; h7, h8; h10, h9)
 h1-h4: predicted rtt = 170 ms
