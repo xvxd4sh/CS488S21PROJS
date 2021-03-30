@@ -36,13 +36,13 @@ data = ""
 while True:
 	line = sys.stdin.readline()
 	if not line:
-		if(s.sendto(bytes(data, 'utf-0'),addr)):
+		if(s.sendto(bytes(data, 'utf-8'),addr)):
 			print("sending...")
 		break
 	if((sys.getsizeof(data)-1 + sys.getsizeof(line)) < buf):
 		data += line
 	else:
-		if(s.sendto(bytes(data, 'utf-0'),addr)):
+		if(s.sendto(bytes(data, 'utf-8'),addr)):
 			print("sending...")
 		data = line
 
