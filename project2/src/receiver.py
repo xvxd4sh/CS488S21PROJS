@@ -13,16 +13,20 @@ s.bind((host,port))
 
 addr = (host,port)
 buf=1024
+result = ""
 
-f = open("RECEIVED_FILE",'wb')
+#f = open("RECEIVED_FILE",'wb')
 
 data,addr = s.recvfrom(buf)
 try:
-    while(data):
-        f.write(data)
-        s.settimeout(2)
-        data,addr = s.recvfrom(buf)
+	while(data):
+		result = data.decode('utf-8')
+		#print(type(result))
+		print(result)
+		#f.write(data)
+		s.settimeout(2)
+		data,addr = s.recvfrom(buf)
 except timeout:
-    f.close()
-    s.close()
-    print("File Downloaded")
+	#f.close()
+	s.close()
+	print("File Downloaded")
