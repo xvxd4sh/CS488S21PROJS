@@ -28,5 +28,3 @@ try:
 except timeout:
 	#f.close()
 	s.close()
-	sys.exit
-	print("File Downloaded")
