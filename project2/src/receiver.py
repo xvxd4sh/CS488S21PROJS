@@ -5,6 +5,7 @@
 from socket import *
 import sys
 import select
+import json 
 
 host="0.0.0.0"
 port = int(sys.argv[1])
@@ -13,18 +14,16 @@ s.bind((host,port))
 
 addr = (host,port)
 buf = 1024
-#f = open("RECEIVED_FILE",'wb')
 
 data,addr = s.recvfrom(buf)
 result = ""
 try:
 	while(data):
 		result = data.decode('utf-8')
-		#print(type(result))
-		print(result.strip("\n"))
-		#f.write(data)
+		result = json.loads(result)
+#		print(result.strip("\n"))
+		print((result["data"]).strip("\n"))
 		s.settimeout(2)
 		data,addr = s.recvfrom(buf)
 except timeout:
-	#f.close()
 	s.close()
