@@ -17,7 +17,7 @@ ack="acknowledge"
 try: 
 	while(data): 
 		result = data.decode()
-		s.sendto(bytes(ack, 'utf-8'),addr)
+		s.sendto(ack.encode(),addr)
 		if not data: 
 			break 
 		data,addr = s.recvfrom(buf) 
