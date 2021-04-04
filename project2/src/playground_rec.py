@@ -13,11 +13,11 @@ s.bind((host,port))
 
 data, addr = s.recvfrom(buf) 
 result = ""
-ack="acknoleghde"
+ack="acknowledge"
 try: 
 	while(data): 
 		result = data.decode()
-		s.sendto(ack.encode(),addr)
+		s.sendto(bytes(ack, 'utf-8'),addr)
 		if not data: 
 			break 
 		data,addr = s.recvfrom(buf) 
