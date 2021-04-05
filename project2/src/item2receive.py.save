@@ -1,0 +1,17 @@
+#!/usr/bin/env python 
+
+import socket 
+from socket import * 
+import json 
+import sys
+
+
+host = "0.0.0.0"
+port = 6969 
+buf = 1024
+
+
+l = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
+l.bind((host,port))
+
+data, addr = l.recvfrom(buf)
