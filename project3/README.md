@@ -23,4 +23,4 @@ In term of defense against Opt-Ack attack, the paper present 7 different solutio
 
 The goal of this project is to go through the experimentation and replicate the attack that was presented in the paper. Our main motivation is to recreate the high bandwidth utilization at the victim server caused by a client low bandwidth connection. This was presented in the figure 7 diagram in the original paper, which shows just how much traffic an attacker that is connected to multiple servers can emit when maliciously utilize the optimistic Acknowledgement attack. The result diagram caught our eyes as it proves the effectiveness and possibility of such attack to occur
 
-![alt text](https://github.com/xvxd4sh/CS488S21PROJS/tree/main/project3/project_goals.png)"Goals"
+![alt text](https://github.com/xvxd4sh/CS488S21PROJS/raw/main/project3/project_goals.png)"Goals"
