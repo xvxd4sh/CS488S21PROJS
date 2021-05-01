@@ -37,8 +37,8 @@ class BBTopo(Topo):
 		self.addLink(h0, switch, bw=1.544, delay="%fms" % args.delay,max_queue_size=1000) 
 		
 		for i in range(1, n+1):
-			h = self.addHost('h%d' % i)
-			self.addLink(h, switch, bw=args.bw_server, delay="%fms" % args.delay, max_queue_size=1000)
+			server = self.addHost('server%d' % i)
+			self.addLink(server, switch, bw=args.bw_server, delay="%fms" % args.delay, max_queue_size=1000)
 		return
 
  
@@ -51,7 +51,14 @@ def test_attack(args):
   		server = net.get('server%d' % i)
   		#starting each server using its corresponding ID 
   		#server.open deternmines what theyre running
-  		server.open(python server.py -p %d --duration %d --dir %s -i %s" % (PORT, args.time, args.dir, h.IP()), shell=True)
+  		server.popen("python server.py -p %d --duration %d --dir %s -i %s" % (PORT, args.time, args.dir, server.IP()), shell=True)
+		server_id += "%s %d " % (server.IP(), PORT)
+
+	h0 = net.get('h0') 
+	h0.popen("iptables -t filter -I OUTPUT -p tcp --dport %d --tcp-flags RST RST -j DROP" % PORT)
+	# after countless hours, RST was an issue that need suppressing 
+	h0.popen("python client_optack.py %d %d %s > /dev/null 2> /dev/null" % (args.time, args.target_rate, server_id), shell=True).wait()
+
 
 	net.stop()
 

@@ -3,7 +3,7 @@ import sys
 import random
 from struct import *
 
-class Packet_Operation:
+class packet_operation:
 	s = None
 	source = None
 	destination = None
@@ -117,7 +117,7 @@ class Packet_Operation:
 
 	def parse(self, packet):
 		# Code from http://www.binarytides.com/python-packet-sniffer-code-linux/
-		#Code from Alexander Schuab<axschaub@stanford.edu>
+		# Code from Alexander Schuab<axschaub@stanford.edu>
 	        """
 	        Takes a packet as input. Returns the sequence number and the payload size
 	        of the packet if it corresponds to a packet from the expected flow, or (-1, -1) otherwise
