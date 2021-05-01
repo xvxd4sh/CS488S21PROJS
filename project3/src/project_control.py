@@ -7,9 +7,9 @@ from mininet.net  import Mininet
 
 from argparse import ArgumentParser
 
-import sys 
+import sys
 import os
-import math 
+import math
 
 PORT = 5002
 def parse_args():
@@ -46,6 +46,12 @@ def test_attack(args):
 	topo = BBTopo(n=args.server_count)
 	net = Mininet(topo=topo, host=CPULimitedHost, link=TCLink, autoStaticArp=True) 
 	net.start()
+	server_id = "" 
+	for i in range(1, args.server_count+1):
+  		server = net.get('server%d' % i)
+  		#starting each server using its corresponding ID 
+  		#server.open deternmines what theyre running
+  		server.open(python server.py -p %d --duration %d --dir %s -i %s" % (PORT, args.time, args.dir, h.IP()), shell=True)
 
 	net.stop()
 
