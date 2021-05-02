@@ -28,14 +28,19 @@ def server(address, port, dir, duration):
 	start_time = time.time()
 
 	datagram_update = 0
+	directory = open(dir+"/%s.csv" % address, 'w+')
 	while True:
 		current_time = time.time()
-		if duration > 0 and now - start >= duration:
+		elapsed = current_time - start_time
+		if duration > 0 and elapsed >= duration:
 			break
 		try:
 			c.send("0"*20000)
 		except:
 			break
+		
+		datagram_update += 20000
+		directory.write(elapsed +"\n" +  datagram_update)
 	c.close()
 	s.close()
 
