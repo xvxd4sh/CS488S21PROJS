@@ -10,13 +10,13 @@ class packet_operation:
 	flag = -1
 	#Creating variables to be used later on
 
-	def create_socket(socket, address, port):
+	def __init__(self, address, port):
 		try:
-			socket.s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
-			socket.s.settimeout(10)
-			socket.destination = (address, port)
-			socket.source = socket.s.getsockname()
-			socket.s.connect(socket.destination)
+			self.s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
+			self.s.settimeout(10)
+			self.destination = (address, port)
+			self.source = socket.s.getsockname()
+			self.s.connect(socket.destination)
 		except socket.error:
 			print("Error")
 			sys.exit()
@@ -29,7 +29,7 @@ class packet_operation:
 
 		return x
 
-	def packet_creation(socket, sequence, ack = -1, string = "", fin = 0, syn = 0, rst = 0, window=5820, wscale = 0):
+	def packet_creation(self, sequence, ack = -1, string = "", fin = 0, syn = 0, rst = 0, window=5820, wscale = 0):
 		if ack == -1
 			ack = 0
 			ack_sequence = 0
@@ -38,8 +38,8 @@ class packet_operation:
 			ack_sequence = ack
 
 
-		source_address, source_port = socket.source
-		destination_address, destination_port = socket.destination
+		source_address, source_port = self.source
+		destination_address, destination_port = self.destination
 		#this was too get the address and port from socket, now we will construct using similar
 		#variables
 
@@ -83,8 +83,8 @@ class packet_operation:
 	        protocol = socket.IPPROTO_TCP
 	        tcp_length = len(tcp_header) + len(datagram)
 		a = 0
-	        tcp_psh = pack('!4s4sBBH' , source_addr , destination_addr , a , protocol , tcp_length);
-	        tcp_psh = tcp_psh + tcp_header + datagram;
+	        tcp_psh = pack('!4s4sBBH' , source_addr , destination_addr , a , protocol , tcp_length)
+	        tcp_psh = tcp_psh + tcp_header + datagram
 	
 	        tcp_checksum = checksum(tcp_psh)
 	
@@ -97,22 +97,29 @@ class packet_operation:
 
 	        self.s.sendto(packet, (dest_ip , 0 ))    
 
+		if self.fin != -1:
+			raise self.Closed
+		elif ack == self.fin:
+			return False
 
-	def three_way_handshake(socket, string="Get / HTTP/1.0\r\n\r\n", window=5840, wscale=0):
+		return True
+
+
+	def three_way_handshake(self, string="Get / HTTP/1.0\r\n\r\n", window=5840, wscale=0):
 		number = random.Random()
 		sequence_number = number.randint(0, 1<<32-1)
-		socket.packet_creation(sequence_number, syn = 1, window = window, wscale = wscale)
-		sequence,_ = socket.read_packet()
+		self.packet_creation(sequence_number, syn = 1, window = window, wscale = wscale)
+		sequence,_ = self.read_packet()
 		sequence_number += 1
-		socket.packet_creation(sequence_number, ack = sequence+1)
-		socket.packet_creation(sequence_number, ack = sequence+1, string)
+		self.packet_creation(sequence_number, ack = sequence+1)
+		self.packet_creation(sequence_number, ack = sequence+1, string=string)
 		return sequence_number + len(string)
 
 
-	def read_packet(socket, buffer = 65535):
+	def read_packet(self, buffer = 65535):
 		while True:
-			packet = socket.s.recvfrom(buffer)
-			(sequence_number, string) = socket.parse(packet[0])
+			packet = self.s.recvfrom(buffer)
+			(sequence_number, string) = self.parse(packet[0])
 			return (sequence_number, string)
 
 	def parse(self, packet):
@@ -168,11 +175,11 @@ class packet_operation:
         	return (sequence, data_size)
 
 
-	def shutdown(socket, sequence):
-		socket.packet_creation(sequence, fin = 1, ack = socket.fin)
-		socket.fin = -1
-		temp_ack = socket.read_packet()
-		socket.packet_creation(sequence+1, ack = socket.fin, rst = 1)
+	def shutdown(self, sequence):
+		self.packet_creation(sequence, fin = 1, ack = self.fin)
+		self.fin = -1
+		temp_ack = self.read_packet()
+		self.packet_creation(sequence+1, ack = self.fin, rst = 1)
 
 	class Closed(Exception):
 		pass

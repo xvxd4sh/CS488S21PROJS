@@ -1,19 +1,19 @@
-#! /usr/bin/env python 
+#! /usr/bin/env python
 
-import sys 
+import sys
 import time
-from multiprocessing import Process, Value 
+from multiprocessing import Process, Value
 from packet_operation import packet_operation
 
-if len(sys.argv) < 5 or len(sys.argv) % 2 != 1: 
+if len(sys.argv) < 5 or len(sys.argv) % 2 != 1:
 	print("Usage : client_optack.py time_length target_rate dest_ip dest_port [dest_ip dest_port [...]] ")
 	sys.exit()
 
-# constant for the recreation of the graphs 
+# constant for the recreation of the graphs
 mss = 1460
 wscale = 4
-client_bandwidth = 1544000.0 
-max_window = 15000 << wscale 
+client_bandwidth = 1544000.0
+max_window = 15000 << wscale
 mininum_wait_time = 1.2*8*40./client_bandwidth 
 
 duration = int(sys.argv[1]) + 1
@@ -82,12 +82,12 @@ def client_optack():
 				overrun_ack[x].valiue = -1 
 				# overrun reset flag
 			before_send_time = time.time() 
-			con.send_raw(sequence_number=sequence[x], ack_number=ack[x])
+			con.packet_operation(sequence_number=sequence[x], ack_number=ack[x])
 		 	#time calculation 
 			current_time = time.time() 
 			elapsed_time = current_time - before_send_time 
 			printf("count %d : %f, %d, (%d) " %  (x, elapsed_time, (ack[x] - start_ack_log[x]) % (1 << 32), ack[x]))
-			
+
 			ack[x] += window[x]
 			waiting_period = current_time - before_send_time
 			wait = max(minimum_wait_time - waiting_period, window[x]/(current_rate * num_of_connections) - waiting_period)
@@ -97,8 +97,8 @@ def client_optack():
 		if current_rate < target_rate: 
 			current_rate += target_rate/100.0
 	pacing_thread.join() 
-			
-	
 
-if __name__ ++ "__main__": 
+
+
+if __name__ ++ "__main__":
 	client_optack()
